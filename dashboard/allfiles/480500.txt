@@ -1,0 +1,147 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+
+class Person
+{
+private:
+    string name,nric;
+    double height,weight,bmr,calorie;
+    int activityLevel;
+public:
+    Person(const string &name ="", const string &nric="", double height = 0.0, double weight = 0.0, int activityLevel = 0)
+    {
+        this->name = name;
+        this->activityLevel = activityLevel;
+        this->height = height;
+        this->weight = weight;
+        this->nric= nric;
+    }
+    string getName()
+    {
+        return this->name;
+    }
+    string getGender()
+    {
+        string gendercodechar = nric.substr(11,1);
+        int gendercode;
+        gendercode = atoi(gendercodechar.c_str());
+        if (gendercode%2 == 0)
+        {
+            return"female";
+        }
+        else
+            {
+                return "male";
+            }
+
+    }
+    int getAge()
+    {
+        string agestring = nric.substr(0,2);
+        int age = atoi(agestring.c_str());
+	
+        return age;
+    }
+
+    void calcCalorie()
+    {
+        if ((this->getAge())%2 == 0)
+        {
+            this->bmr = (10*this->weight)-(5*this->getAge())-161;
+        }
+        else
+        {
+            this->bmr = (10*this->weight)-(5*this->getAge())+5;
+        }
+
+        if (this->activityLevel == 1)
+        {
+            this->calorie = bmr*1.2;
+        }
+        if (this->activityLevel == 2)
+        {
+            this->calorie = bmr * 1.375;
+        }
+        if (this->activityLevel == 3)
+        {
+            this->calorie = bmr * 1.55;
+        }
+        if (this->activityLevel == 4)
+        {
+            this->calorie = bmr * 1.725;
+        }
+        if (this->activityLevel == 5)
+        {
+            this->calorie = bmr * 1.9;
+        }
+    }
+    void readInput()
+    {
+        cout<<"Name :";
+        getline(cin,this->name);
+
+        cout<<"NRIC Number (without hyphen'-') : ";
+        getline(cin,this->nric);
+
+        cout<<"Height (in meter) : ";
+        cin>>this->height;
+        cin.ignore();
+        cout<<"Weight (in kg) : ";
+        cin>>this->weight;
+        cin.ignore();
+        cout<<"\n";
+        cout<<"Choose activity level : 1-Sedantary, 2-Lightly Active, 3-Moderately Active, 4-Very Active, 5-Extra Active\nActivity level (1 - 5):";
+        cin>>this->activityLevel;
+        cout<<"\n";
+        cin.ignore();
+        this->getAge();
+        this->getGender();
+        this->calcCalorie();
+    }
+    bool Person::operator== (const Person & rhs) const
+    {
+        if (this->activityLevel == rhs.activityLevel)
+        {
+            return true;
+        } else{ return false;}
+    }
+    void dispInfo()
+    {
+        //cout<<"Hello, "<<this->getName();
+        //cout<<"\n";
+        cout<<"Your gender is "<<this->getGender();
+        cout<<"\n";
+        cout<<"Your age is "<<this->getAge()<<" years old";
+        cout<<"\n";
+       // cout<<"Your height is "<<this->height)<<" cm";
+        //cout<<"\n";
+        //cout<<"Your weight is "<<this->weight)<<" kg";
+        //cout<<"\n";
+        //cout<<"Your BMR is "<<this->bmr," kcal/day";
+        //cout<<"\n";
+        //cout<<"Your calorie based on your activity level is "<<this->calorie<< " kcal/day";
+    }
+    /*friend ostream & operator<< (ostream & out, const Person & c)
+    {
+        out << '(' << c.real << ',' << c.imag << ')';
+    }   return out;*/
+
+};
+
+
+
+int main()
+{
+   Person p1;
+   Person p2("Alisha Hashim","",150,50,2);
+   cout<<"Calorie Calculator\n\n<<< Input >>>\n";
+   p1.readInput();
+   cout<<"\n<<< Output >>>\n";
+   if (p1==p2)
+   {
+       cout<<"**Note: "<<p1.getName()<<" and "<<p2.getName()<<" have same activity level.";
+   } else{cout<<"**Note: "<<p1.getName()<<" and "<<p2.getName()<<" have different activity level.";}
+
+}

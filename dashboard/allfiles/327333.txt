@@ -1,0 +1,91 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+
+class Person
+{
+private:
+    string name,nric;
+    double height,weight,bmr,calorie;
+    int activityLevel;
+public:
+    Person(const string &name ="", const string &nric="", double height = 0.0, double weight = 0.0, int activityLevel = 0)
+    {
+        this->name = name;
+        this->activityLevel = activityLevel;
+        this->height = height;
+        this->weight = weight;
+        this->nric= nric;
+    }
+    string getName()
+    {
+        return this->name;
+    }
+    string getGender()
+    {
+        string gendercodechar = nric.substr(11,1);
+        int gendercode;
+        gendercode = atoi(gendercodechar.c_str());
+        if (gendercode%2 == 0)
+        {
+            return"female";
+        }
+        else
+            {
+                return "male";
+            }
+
+    }
+    int getAge()
+    {
+        string agestring = nric.substr(0,2);
+        int age = atoi(agestring.c_str());
+        return age;
+    }
+
+    void calcCalorie()
+    {
+        if ((this->getAge())%2 == 0)
+        {
+            this->bmr = (10*this->weight)-(5*this->getAge())-161;
+        }
+        else
+        {
+            this->bmr = (10*this->weight)-(5*this->getAge())+5;
+        }
+
+        if (this->activityLevel == 1)
+        {
+            this->calorie = bmr*1.2;
+        }
+        if (this->activityLevel == 2)
+        {
+            this->calorie = bmr * 1.375;
+        }
+        if (this->activityLevel == 3)
+        {
+            this->calorie = bmr * 1.55;
+        }
+        if (this->activityLevel == 4)
+        {
+            this->calorie = bmr * 1.725;
+        }
+        if (this->activityLevel == 5)
+        {
+            this->calorie = bmr * 1.9;
+        }
+    }
+    void readInput()
+    {
+
+    }
+
+
+};
+int main()
+{
+   Person obj1("sanzid","123456789123",99.2,22.6,5);
+   obj1.getGender();
+   cout<<obj1.getName();
+}
